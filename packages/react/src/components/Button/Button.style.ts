@@ -7,7 +7,8 @@ export const buttonVariants = createVariants({
     justifyContent: "center",
     border: "none",
     cursor: "pointer",
-    fontWeight: 500
+    fontWeight: "var(--wish-fontWeight-medium)",
+    transition: "all 0.2s ease"
   },
 
   variants: {
@@ -31,12 +32,12 @@ export const buttonVariants = createVariants({
 
     size: {
       sm: {
-        padding: "4px 10px",
+        padding: "6px 12px",
         fontSize: "12px"
       },
 
       md: {
-        padding: "8px 14px",
+        padding: "8px 16px",
         fontSize: "14px"
       },
 

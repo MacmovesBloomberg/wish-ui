@@ -1,8 +1,6 @@
-import { ReactNode, CSSProperties } from "react";
+import { CSSProperties, HTMLAttributes } from "react";
 
-export type FlexProps = {
-  children?: ReactNode;
-
+export type FlexProps = HTMLAttributes<HTMLDivElement> & {
   direction?: "row" | "column" | "row-reverse" | "column-reverse";
 
   align?: CSSProperties["alignItems"];
@@ -11,6 +9,4 @@ export type FlexProps = {
   wrap?: CSSProperties["flexWrap"];
 
   gap?: string;
-
-  style?: CSSProperties;
 };
