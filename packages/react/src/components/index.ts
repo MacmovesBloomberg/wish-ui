@@ -5,3 +5,4 @@ export * from "./Flex";
 export * from "./Text";
 export * from "./Input";
 export * from "./FormControl";
+export * from "./Card";

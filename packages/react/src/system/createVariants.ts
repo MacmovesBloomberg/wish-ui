@@ -1,25 +1,85 @@
-import { VariantConfig, StyleObject } from "./types";
+import { insertCSS } from "./styleRegistry";
+import { objectToCSS } from "./cssUtils";
 
-export function createVariants(config: VariantConfig) {
-  return function resolveVariants(props: Record<string, any> = {}) {
-    const styles: StyleObject = {
-      ...config.base
-    };
+type VariantConfig = {
+  base?: Record<string, any>;
+  variants?: Record<string, Record<string, Record<string, any>>>;
+  compoundVariants?: Array<{
+    [key: string]: any;
+    style: Record<string, any>;
+  }>;
+  defaultVariants?: Record<string, any>;
+};
 
-    const { variants = {}, defaultVariants = {} } = config;
+export function createVariants(
+  config: VariantConfig,
+  componentId: string // ✅ REQUIRED NOW
+) {
+  const componentName = componentId;
 
-    Object.keys(variants).forEach((variantName) => {
-      const variantValue =
-        props[variantName] ?? defaultVariants[variantName];
+  // 🔹 Base
+  if (config.base) {
+    insertCSS(
+      `${componentName}-base`,
+      objectToCSS(`.${componentName}`, config.base)
+    );
+  }
 
-      const variantStyles =
-        variants[variantName]?.[variantValue];
+  // 🔹 Variants
+  if (config.variants) {
+    Object.entries(config.variants).forEach(([variantName, values]) => {
+      Object.entries(values).forEach(([value, styles]) => {
+        const className = `${componentName}--${variantName}-${value}`;
 
-      if (variantStyles) {
-        Object.assign(styles, variantStyles);
-      }
+        insertCSS(
+          className,
+          objectToCSS(`.${className}`, styles)
+        );
+      });
     });
+  }
 
-    return styles;
+  // 🔹 Compound variants
+  if (config.compoundVariants) {
+    config.compoundVariants.forEach((cv, i) => {
+      const className = `${componentName}--cv-${i}`;
+
+      insertCSS(
+        className,
+        objectToCSS(`.${className}`, cv.style)
+      );
+    });
+  }
+
+  return (props: Record<string, any> = {}) => {
+    const finalProps = { ...config.defaultVariants, ...props };
+
+    const classes = [componentName];
+
+    // Apply variants
+    if (config.variants) {
+      Object.keys(config.variants).forEach((variantName) => {
+        const value = finalProps[variantName];
+        if (value) {
+          classes.push(`${componentName}--${variantName}-${value}`);
+        }
+      });
+    }
+
+    // Apply compound variants
+    if (config.compoundVariants) {
+      config.compoundVariants.forEach((cv, i) => {
+        const matches = Object.entries(cv).every(([key, val]) => {
+          if (key === "style") return true;
+          return finalProps[key] === val;
+        });
+
+        if (matches) {
+          classes.push(`${componentName}--cv-${i}`);
+        }
+      });
+    }
+
+    return classes.join(" ");
   };
 }

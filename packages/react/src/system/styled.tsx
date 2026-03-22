@@ -1,32 +1,29 @@
 import React, { JSX } from "react";
-
-type StyleObject = React.CSSProperties;
-
-type StyledOptions = {
-  base?: StyleObject;
-};
+import { filterDOMProps } from "./filterProps";
 
 export function styled<T extends keyof JSX.IntrinsicElements>(
-  element: T,
-  options: StyledOptions
+  tag: T,
+  variantFn?: (props: any) => string
 ) {
-  const { base = {} } = options;
+  const StyledComponent = React.forwardRef<any, any>((props, ref) => {
+    const { as, className, style, ...rest } = props;
 
-  return function StyledComponent({
-    as,
-    style,
-    ...props
-  }: any) {
-    const Component = (as || element) as React.ElementType;
+    const Component = (as || tag) as React.ElementType;
+
+    const generatedClass = variantFn ? variantFn(props) : "";
+    const domProps = filterDOMProps(rest);
 
     return (
       <Component
-        style={{
-          ...base,
-          ...style
-        }}
-        {...props}
+        ref={ref}
+        className={[generatedClass, className].filter(Boolean).join(" ")}
+        style={style} // TEMP (will remove later)
+        {...domProps}
       />
     );
-  };
+  });
+
+  StyledComponent.displayName = `styled.${tag}`;
+
+  return StyledComponent;
 }
