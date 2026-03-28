@@ -8,9 +8,8 @@ export type BadgeColor =
   | "success"
   | "danger"
   | "warning";
-
 export interface BadgeProps
-  extends React.HTMLAttributes<HTMLSpanElement> {
+  extends Omit<React.HTMLAttributes<HTMLSpanElement>, "style"> {
   variant?: BadgeVariant;
   size?: BadgeSize;
   color?: BadgeColor;

@@ -6,3 +6,8 @@ export * from "./Text";
 export * from "./Input";
 export * from "./FormControl";
 export * from "./Card";
+export * from "./Alert"
+export * from "./Avatar"
+export * from "./Badge"
+export * from "./Spinner"
+export * from "./Divider"

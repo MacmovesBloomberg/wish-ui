@@ -1,18 +1,19 @@
-const VARIANT_KEYS = new Set([
-  "variant",
-  "size",
-  "color",
-  "startIcon",
-  "endIcon",
-  "hasStartIcon",
-  "hasEndIcon",
-]);
-
-export function filterDOMProps(props: Record<string, any>) {
+export function filterDOMProps(
+  props: Record<string, any>,
+  variantKeys: string[] = []
+) {
   const result: Record<string, any> = {};
 
+  const blockedKeys = new Set([
+    ...variantKeys,
+    "startIcon",
+    "endIcon",
+    "hasStartIcon",
+    "hasEndIcon",
+  ]);
+
   for (const key in props) {
-    if (!VARIANT_KEYS.has(key)) {
+    if (!blockedKeys.has(key)) {
       result[key] = props[key];
     }
   }

@@ -1,29 +1,54 @@
 import React, { JSX } from "react";
 import { filterDOMProps } from "./filterProps";
+import {
+  PolymorphicComponentPropsWithRef,
+} from "./types";
 
-export function styled<T extends keyof JSX.IntrinsicElements>(
-  tag: T,
-  variantFn?: (props: any) => string
+export function styled<T extends React.ElementType>(
+  Component: T,
+  variantFn?: any
 ) {
-  const StyledComponent = React.forwardRef<any, any>((props, ref) => {
-    const { as, className, style, ...rest } = props;
+  type StyledProps<C extends React.ElementType> =
+    PolymorphicComponentPropsWithRef<C> & {
+      children?: React.ReactNode; // ✅ FIX
+    };
 
-    const Component = (as || tag) as React.ElementType;
+  type StyledComponentType = {
+    <C extends React.ElementType = T>(props: StyledProps<C>): JSX.Element;
+    displayName?: string;
+  };
 
-    const generatedClass = variantFn ? variantFn(props) : "";
-    const domProps = filterDOMProps(rest);
+  const StyledComponent = React.forwardRef(
+    (props: any, ref: React.Ref<any>) => {
+      const { as, className, ...rest } = props;
 
-    return (
-      <Component
-        ref={ref}
-        className={[generatedClass, className].filter(Boolean).join(" ")}
-        style={style} // TEMP (will remove later)
-        {...domProps}
-      />
-    );
-  });
+      const FinalComponent = (as || Component) as React.ElementType;
 
-  StyledComponent.displayName = `styled.${tag}`;
+      const generatedClass = variantFn ? variantFn(props) : "";
+
+      const variantKeys = variantFn?.__variantKeys || [];
+      const domProps = filterDOMProps(rest, variantKeys);
+
+      const mergedClassName = [generatedClass, className]
+        .filter(Boolean)
+        .join(" ");
+
+      return (
+        <FinalComponent
+          ref={ref}
+          className={mergedClassName}
+          {...domProps}
+        />
+      );
+    }
+  ) as StyledComponentType;
+
+  const name =
+    typeof Component === "string"
+      ? Component
+      : Component.displayName || Component.name || "Component";
+
+  StyledComponent.displayName = `styled.${name}`;
 
   return StyledComponent;
 }

@@ -13,65 +13,100 @@ type VariantConfig = {
 
 export function createVariants(
   config: VariantConfig,
-  componentId: string // ✅ REQUIRED NOW
+  componentId: string
 ) {
   const componentName = componentId;
 
-  // 🔹 Base
-  if (config.base) {
-    insertCSS(
-      `${componentName}-base`,
-      objectToCSS(`.${componentName}`, config.base)
-    );
-  }
+  // ✅ Extract variant keys
+  const variantKeys = config.variants
+    ? Object.keys(config.variants)
+    : [];
 
-  // 🔹 Variants
-  if (config.variants) {
-    Object.entries(config.variants).forEach(([variantName, values]) => {
-      Object.entries(values).forEach(([value, styles]) => {
-        const className = `${componentName}--${variantName}-${value}`;
+  let isInitialized = false;
+
+  function init() {
+    if (isInitialized) return;
+    isInitialized = true;
+
+    // 🔹 Base
+    if (config.base) {
+      insertCSS(
+        `${componentName}-base`,
+        objectToCSS(`.${componentName}`, config.base)
+      );
+    }
+
+    // 🔹 Variants
+    if (config.variants) {
+      Object.entries(config.variants).forEach(([variantName, values]) => {
+        Object.entries(values).forEach(([value, styles]) => {
+          const className = `${componentName}--${variantName}-${value}`;
+
+          insertCSS(
+            className,
+            objectToCSS(`.${className}`, styles)
+          );
+        });
+      });
+    }
+
+    // 🔹 Compound
+    if (config.compoundVariants) {
+      config.compoundVariants.forEach((cv, i) => {
+        const className = `${componentName}--cv-${i}`;
 
         insertCSS(
           className,
-          objectToCSS(`.${className}`, styles)
+          objectToCSS(`.${className}`, cv.style)
         );
       });
-    });
+    }
   }
 
-  // 🔹 Compound variants
-  if (config.compoundVariants) {
-    config.compoundVariants.forEach((cv, i) => {
-      const className = `${componentName}--cv-${i}`;
-
-      insertCSS(
-        className,
-        objectToCSS(`.${className}`, cv.style)
-      );
-    });
+  // 🔹 Normalize helper
+  function normalize(value: any) {
+    if (typeof value === "boolean") return value.toString();
+    return value;
   }
 
-  return (props: Record<string, any> = {}) => {
+  // 🔹 Runtime
+  const fn = (props: Record<string, any> = {}) => {
+    init();
+
     const finalProps = { ...config.defaultVariants, ...props };
 
     const classes = [componentName];
 
-    // Apply variants
+    // 🔹 Apply variants
     if (config.variants) {
-      Object.keys(config.variants).forEach((variantName) => {
-        const value = finalProps[variantName];
-        if (value) {
-          classes.push(`${componentName}--${variantName}-${value}`);
+      Object.entries(config.variants).forEach(([variantName, values]) => {
+        let value = normalize(finalProps[variantName]);
+
+        if (value === undefined || value === null) return;
+
+        // ❗ Dev safety (optional)
+        if (process.env.NODE_ENV !== "production") {
+          if (!(value in values)) {
+            console.warn(
+              `[wish-ui] Invalid value "${value}" for variant "${variantName}" in ${componentName}`
+            );
+            return;
+          }
         }
+
+        if (!values[value]) return;
+
+        classes.push(`${componentName}--${variantName}-${value}`);
       });
     }
 
-    // Apply compound variants
+    // 🔹 Apply compound variants (FIXED ✅)
     if (config.compoundVariants) {
       config.compoundVariants.forEach((cv, i) => {
         const matches = Object.entries(cv).every(([key, val]) => {
           if (key === "style") return true;
-          return finalProps[key] === val;
+
+          return normalize(finalProps[key]) === normalize(val);
         });
 
         if (matches) {
@@ -82,4 +117,9 @@ export function createVariants(
 
     return classes.join(" ");
   };
+
+  // ✅ Attach metadata
+  (fn as any).__variantKeys = variantKeys;
+
+  return fn;
 }

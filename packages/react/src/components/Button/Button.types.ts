@@ -8,4 +8,5 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   endIcon?: ReactNode;
 
   loading?: boolean;
+  loadingText?: React.ReactNode;
 };

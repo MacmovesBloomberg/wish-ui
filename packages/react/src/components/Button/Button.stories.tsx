@@ -33,7 +33,14 @@ export const WithIcon: Story = {
 
 export const Loading: Story = {
   args: {
+    loading: true,
     children: "Saving...",
-    loading: true
-  }
+  },
+};
+
+export const LoadingWithText: Story = {
+  args: {
+    loading: true,
+    loadingText: "Saving...",
+  },
 };
