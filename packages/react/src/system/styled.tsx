@@ -1,8 +1,6 @@
 import React, { JSX } from "react";
 import { filterDOMProps } from "./filterProps";
-import {
-  PolymorphicComponentPropsWithRef,
-} from "./types";
+import { PolymorphicComponentPropsWithRef } from "./types";
 
 export function styled<T extends React.ElementType>(
   Component: T,
@@ -10,26 +8,42 @@ export function styled<T extends React.ElementType>(
 ) {
   type StyledProps<C extends React.ElementType> =
     PolymorphicComponentPropsWithRef<C> & {
-      children?: React.ReactNode; // ✅ FIX
+      children?: React.ReactNode;
     };
 
   type StyledComponentType = {
-    <C extends React.ElementType = T>(props: StyledProps<C>): JSX.Element;
+    <C extends React.ElementType = T>(
+      props: StyledProps<C>
+    ): JSX.Element;
     displayName?: string;
   };
 
   const StyledComponent = React.forwardRef(
     (props: any, ref: React.Ref<any>) => {
-      const { as, className, ...rest } = props;
+      const { as, className, style, ...rest } = props;
 
       const FinalComponent = (as || Component) as React.ElementType;
 
-      const generatedClass = variantFn ? variantFn(props) : "";
+      // ✅ Extract only variant props
+      let variantProps: Record<string, any> = {};
+
+      if (variantFn?.__variantKeys) {
+        for (const key of variantFn.__variantKeys) {
+          if (key in props) {
+            variantProps[key] = props[key];
+          }
+        }
+      }
+
+      const generatedClass = variantFn
+        ? variantFn(variantProps)
+        : "";
 
       const variantKeys = variantFn?.__variantKeys || [];
       const domProps = filterDOMProps(rest, variantKeys);
 
-      const mergedClassName = [generatedClass, className]
+      // ✅ User class should override system
+      const mergedClassName = [className, generatedClass]
         .filter(Boolean)
         .join(" ");
 
@@ -37,6 +51,7 @@ export function styled<T extends React.ElementType>(
         <FinalComponent
           ref={ref}
           className={mergedClassName}
+          style={style}
           {...domProps}
         />
       );

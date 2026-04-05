@@ -6,97 +6,75 @@ export const buttonVariants = createVariants(
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
-      border: "none",
-      cursor: "pointer",
-      fontWeight: "var(--wish-font-weight-medium)",
       borderRadius: "var(--wish-radius-md)",
-      transition: "all 0.2s ease",
-      whiteSpace: "nowrap",
+      fontWeight: "var(--wish-font-weight-medium)",
+      cursor: "pointer",
+      border: "none",
+
+      // ✅ PSEUDO SUPPORT
+      _hover: {
+        opacity: 0.9,
+      },
+
+      _active: {
+        transform: "scale(0.98)",
+      },
+
+      _focusVisible: {
+        outline: "2px solid var(--wish-color-primary)",
+        outlineOffset: "2px",
+      },
+
+      _disabled: {
+        opacity: 0.5,
+        pointerEvents: "none",
+      },
     },
 
     variants: {
       variant: {
-        solid: {},
+        solid: {
+          background: "var(--wish-color-primary)",
+          color: "white",
+
+          _hover: {
+            background: "var(--wish-color-primary-hover)",
+          },
+        },
 
         outline: {
-          border: "1px solid",
+          border: "1px solid var(--wish-color-border)",
           background: "transparent",
+
+          _hover: {
+            background: "var(--wish-color-surface-hover)",
+          },
         },
 
         ghost: {
           background: "transparent",
+
+          _hover: {
+            background: "var(--wish-color-surface-hover)",
+          },
         },
       },
 
       size: {
         sm: {
-          padding: "var(--wish-spacing-1) var(--wish-spacing-2)",
-          fontSize: "var(--wish-font-size-xs)",
+          padding: "6px 10px",
+          fontSize: "12px",
         },
-
         md: {
-          padding: "var(--wish-spacing-2) var(--wish-spacing-3)",
-          fontSize: "var(--wish-font-size-sm)",
+          padding: "8px 14px",
+          fontSize: "14px",
         },
-
         lg: {
-          padding: "var(--wish-spacing-3) var(--wish-spacing-4)",
-          fontSize: "var(--wish-font-size-md)",
+          padding: "10px 18px",
+          fontSize: "16px",
         },
-      },
-
-      hasStartIcon: {
-        true: {},
-        false: {},
-      },
-
-      hasEndIcon: {
-        true: {},
-        false: {},
       },
     },
-
-    compoundVariants: [
-      // 🔹 SOLID
-      {
-        variant: "solid",
-        style: {
-          background: "var(--wish-color-primary)",
-          color: "var(--wish-color-on-primary)",
-        },
-      },
-
-      // 🔹 OUTLINE
-      {
-        variant: "outline",
-        style: {
-          borderColor: "var(--wish-color-primary)",
-          color: "var(--wish-color-primary)",
-        },
-      },
-
-      // 🔹 GHOST
-      {
-        variant: "ghost",
-        style: {
-          color: "var(--wish-color-primary)",
-        },
-      },
-
-      // 🔹 ICON SPACING (NEW 🔥)
-      {
-        hasStartIcon: true,
-        style: {
-          gap: "var(--wish-spacing-2)",
-        },
-      },
-      {
-        hasEndIcon: true,
-        style: {
-          gap: "var(--wish-spacing-2)",
-        },
-      },
-    ],
 
     defaultVariants: {
       variant: "solid",

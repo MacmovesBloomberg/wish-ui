@@ -4,10 +4,23 @@ import { buttonVariants } from "./Button.style";
 import { ButtonProps } from "./Button.types";
 import { Spinner } from "../Spinner";
 
-const StyledButton = styled("button", buttonVariants);
+const StyledButton = styled("button", buttonVariants) as React.FC<
+  React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    hasStartIcon?: boolean;
+    hasEndIcon?: boolean;
+  }
+>;
+
+const IconWrapper = styled("span", {
+  base: {
+    display: "inline-flex",
+  },
+});
+
+const TextWrapper = styled("span");
 
 export const Button = React.forwardRef(
-  <T extends React.ElementType = "button">(
+  (
     {
       children,
       startIcon,
@@ -16,8 +29,8 @@ export const Button = React.forwardRef(
       disabled,
       loadingText,
       ...rest
-    }: ButtonProps<T>,
-    ref: any
+    }: ButtonProps,
+    ref: React.Ref<HTMLButtonElement>
   ) => {
     const isDisabled = disabled || loading;
 
@@ -33,27 +46,15 @@ export const Button = React.forwardRef(
         {loading ? (
           <>
             <Spinner size="sm" />
-            {loadingText && (
-              <span style={{ marginLeft: 8 }}>
-                {loadingText}
-              </span>
-            )}
+            {loadingText && <TextWrapper>{loadingText}</TextWrapper>}
           </>
         ) : (
           <>
-            {startIcon && (
-              <span style={{ display: "inline-flex", marginRight: 6 }}>
-                {startIcon}
-              </span>
-            )}
+            {startIcon && <IconWrapper>{startIcon}</IconWrapper>}
 
-            <span>{children}</span>
+            <TextWrapper>{children}</TextWrapper>
 
-            {endIcon && (
-              <span style={{ display: "inline-flex", marginLeft: 6 }}>
-                {endIcon}
-              </span>
-            )}
+            {endIcon && <IconWrapper>{endIcon}</IconWrapper>}
           </>
         )}
       </StyledButton>

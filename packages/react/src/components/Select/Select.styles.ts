@@ -58,14 +58,26 @@ export const optionStyles = createVariants(
     base: {
       padding: "var(--wish-spacing-2)",
       cursor: "pointer",
+      userSelect: "none",
     },
 
     variants: {
-      active: {
-        true: {
+      state: {
+        default: {},
+
+        highlighted: {
+          background: "var(--wish-color-surface-hover)",
+        },
+
+        active: {
           background: "var(--wish-color-primary-subtle)",
+          fontWeight: "var(--wish-font-weight-medium)",
         },
       },
+    },
+
+    defaultVariants: {
+      state: "default",
     },
   },
   "wish-select-option"
