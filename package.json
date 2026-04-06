@@ -9,13 +9,17 @@
   "description": "Wish UI — A modern, lightweight, and accessible React component library built for performance and enterprise-scale applications",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^4.3.4",
+    "husky": "^9.1.7",
     "typescript": "^5.9.3",
     "vite": "^6.3.5"
   },

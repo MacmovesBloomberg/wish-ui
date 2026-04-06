@@ -4,11 +4,11 @@ import { buttonVariants } from "./Button.style";
 import { ButtonProps } from "./Button.types";
 import { Spinner } from "../Spinner";
 
-const StyledButton = styled("button", buttonVariants) as React.FC<
+const StyledButton = styled("button", buttonVariants) as React.ForwardRefExoticComponent<
   React.ButtonHTMLAttributes<HTMLButtonElement> & {
     hasStartIcon?: boolean;
     hasEndIcon?: boolean;
-  }
+  } & React.RefAttributes<HTMLButtonElement>
 >;
 
 const IconWrapper = styled("span", {
