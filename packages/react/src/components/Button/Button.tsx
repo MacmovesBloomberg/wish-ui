@@ -1,9 +1,11 @@
 import React from "react";
 import { styled } from "../../system/styled";
+import { createVariants } from "../../system/createVariants";
 import { buttonVariants } from "./Button.style";
 import { ButtonProps } from "./Button.types";
 import { Spinner } from "../Spinner";
 
+// ✅ Main button
 const StyledButton = styled("button", buttonVariants) as React.ForwardRefExoticComponent<
   React.ButtonHTMLAttributes<HTMLButtonElement> & {
     hasStartIcon?: boolean;
@@ -11,13 +13,31 @@ const StyledButton = styled("button", buttonVariants) as React.ForwardRefExoticC
   } & React.RefAttributes<HTMLButtonElement>
 >;
 
-const IconWrapper = styled("span", {
-  base: {
-    display: "inline-flex",
+// ✅ FIXED: Icon wrapper
+const iconWrapperStyles = createVariants(
+  {
+    base: {
+      display: "inline-flex",
+      alignItems: "center",
+    },
   },
-});
+  "wish-button-icon"
+);
 
-const TextWrapper = styled("span");
+const IconWrapper = styled("span", iconWrapperStyles);
+
+// ✅ FIXED: Text wrapper
+const textWrapperStyles = createVariants(
+  {
+    base: {
+      display: "inline-flex",
+      alignItems: "center",
+    },
+  },
+  "wish-button-text"
+);
+
+const TextWrapper = styled("span", textWrapperStyles);
 
 export const Button = React.forwardRef(
   (

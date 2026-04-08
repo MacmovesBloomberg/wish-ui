@@ -1,10 +1,15 @@
 import React from "react";
-import { WishProvider } from "../src/theme";
+import type { Preview } from "@storybook/react";
+import { WishProvider } from "../src/theme/provider/WishProvider";
 
-export const decorators = [
-  (Story:any) => (
-    <WishProvider>
-      <Story />
-    </WishProvider>
-  )
-];
+const preview: Preview = {
+  decorators: [
+    (Story) => (
+      <WishProvider>
+        <Story />
+      </WishProvider>
+    ),
+  ],
+};
+
+export default preview;

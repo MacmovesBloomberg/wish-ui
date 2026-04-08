@@ -1,10 +1,16 @@
-import * as tokens from "./tokens";
-import { createCssVariables } from "./createCssVariables";
+import { colors } from "./tokens/colors";
+import { spacing } from "./tokens/spacing";
+import { radius } from "./tokens/radius";
+import { shadows } from "./tokens/shadows";
+import { typography } from "./tokens/typography";
 
 export const theme = {
-  ...tokens
-};
+  colors,
+  spacing,
+  radius,
+  shadows,
+  typography,
+} as const; 
 
-export const cssVariables = createCssVariables(theme);
 
 export type WishTheme = typeof theme;

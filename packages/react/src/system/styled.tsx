@@ -4,7 +4,7 @@ import { PolymorphicComponentPropsWithRef } from "./types";
 
 export function styled<T extends React.ElementType>(
   Component: T,
-  variantFn?: any
+  variantFn?: any,
 ) {
   type StyledProps<C extends React.ElementType> =
     PolymorphicComponentPropsWithRef<C> & {
@@ -12,9 +12,7 @@ export function styled<T extends React.ElementType>(
     };
 
   type StyledComponentType = {
-    <C extends React.ElementType = T>(
-      props: StyledProps<C>
-    ): JSX.Element;
+    <C extends React.ElementType = T>(props: StyledProps<C>): JSX.Element;
     displayName?: string;
   };
 
@@ -35,9 +33,8 @@ export function styled<T extends React.ElementType>(
         }
       }
 
-      const generatedClass = variantFn
-        ? variantFn(variantProps)
-        : "";
+      const generatedClass =
+        typeof variantFn === "function" ? variantFn(variantProps) : "";
 
       const variantKeys = variantFn?.__variantKeys || [];
       const domProps = filterDOMProps(rest, variantKeys);
@@ -55,7 +52,7 @@ export function styled<T extends React.ElementType>(
           {...domProps}
         />
       );
-    }
+    },
   ) as StyledComponentType;
 
   const name =

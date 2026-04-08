@@ -48,10 +48,16 @@ export const dropdownStyles = createVariants(
       marginTop: "4px",
       zIndex: 1000,
       minWidth: "100%",
+
+      // 🔥 ANIMATION
+      _open: {
+        animation: "var(--wish-animations-scale-in)",
+      },
     },
   },
   "wish-select-dropdown"
 );
+
 
 export const optionStyles = createVariants(
   {

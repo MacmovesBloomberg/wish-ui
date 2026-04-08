@@ -150,6 +150,7 @@ export const Select = ({
             ref={refs.floating as React.RefObject<HTMLDivElement>}
             role="listbox"
             id={listboxId.current}
+            data-state={open ? "open" : "closed"}
             style={{
               position: strategy,
               top: y,

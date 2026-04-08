@@ -6,7 +6,7 @@ export const badgeStyles = createVariants(
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
-      fontWeight: "var(--wish-font-weight-medium)",
+      fontWeight: "var(--wish-typography-fontWeights-medium)",
       borderRadius: "var(--wish-radius-full)",
       whiteSpace: "nowrap",
       lineHeight: 1,
@@ -26,17 +26,17 @@ export const badgeStyles = createVariants(
 
       size: {
         sm: {
-          fontSize: "var(--wish-font-size-xs)",
+          fontSize: "var(--wish-typography-fontSizes-xs)",
           padding: "0 var(--wish-spacing-2)",
           height: "20px",
         },
         md: {
-          fontSize: "var(--wish-font-size-sm)",
+          fontSize: "var(--wish-typography-fontSizes-sm)",
           padding: "0 var(--wish-spacing-3)",
           height: "24px",
         },
         lg: {
-          fontSize: "var(--wish-font-size-md)",
+          fontSize: "var(--wish-typography-fontSizes-md)",
           padding: "0 var(--wish-spacing-4)",
           height: "28px",
         },
@@ -50,12 +50,14 @@ export const badgeStyles = createVariants(
         warning: {},
       },
 
-      // 🔥 icon presence variants
+      // Fixes the "Invalid value false" console errors
       hasStartIcon: {
-        true: {},
+        true: { gap: "var(--wish-spacing-1)" },
+        false: {},
       },
       hasEndIcon: {
-        true: {},
+        true: { gap: "var(--wish-spacing-1)" },
+        false: {},
       },
     },
 
@@ -65,21 +67,10 @@ export const badgeStyles = createVariants(
         variant: "solid",
         color: "primary",
         style: {
-          background: "var(--wish-color-primary)",
-          color: "var(--wish-color-on-primary)",
-          "&:hover": {
-            background: "var(--wish-color-primary-hover)",
-          },
-        },
-      },
-      {
-        variant: "outline",
-        color: "primary",
-        style: {
-          borderColor: "var(--wish-color-primary)",
-          color: "var(--wish-color-primary)",
-          "&:hover": {
-            background: "var(--wish-color-primary-subtle)",
+          background: "var(--wish-colors-primary-500)",
+          color: "var(--wish-white)",
+          _hover: {
+            background: "var(--wish-colors-primary-600)",
           },
         },
       },
@@ -87,23 +78,23 @@ export const badgeStyles = createVariants(
         variant: "subtle",
         color: "primary",
         style: {
-          background: "var(--wish-color-primary-subtle)",
-          color: "var(--wish-color-primary)",
-          "&:hover": {
-            background: "var(--wish-color-primary-subtle-hover)",
+          background: "var(--wish-colors-primary-50)",
+          color: "var(--wish-colors-primary-700)",
+          _hover: {
+            background: "var(--wish-colors-primary-100)",
           },
         },
       },
 
-      // ⚪ NEUTRAL
+      // ⚪ NEUTRAL (Mapped to Gray)
       {
         variant: "solid",
         color: "neutral",
         style: {
-          background: "var(--wish-color-neutral)",
-          color: "var(--wish-color-on-neutral)",
-          "&:hover": {
-            background: "var(--wish-color-neutral-hover)",
+          background: "var(--wish-colors-gray-700)",
+          color: "var(--wish-white)",
+          _hover: {
+            background: "var(--wish-colors-gray-800)",
           },
         },
       },
@@ -111,10 +102,10 @@ export const badgeStyles = createVariants(
         variant: "subtle",
         color: "neutral",
         style: {
-          background: "var(--wish-color-neutral-subtle)",
-          color: "var(--wish-color-neutral)",
-          "&:hover": {
-            background: "var(--wish-color-neutral-subtle-hover)",
+          background: "var(--wish-colors-gray-100)",
+          color: "var(--wish-colors-gray-700)",
+          _hover: {
+            background: "var(--wish-colors-gray-200)",
           },
         },
       },
@@ -124,11 +115,16 @@ export const badgeStyles = createVariants(
         variant: "solid",
         color: "success",
         style: {
-          background: "var(--wish-color-success)",
-          color: "var(--wish-color-on-success)",
-          "&:hover": {
-            background: "var(--wish-color-success-hover)",
-          },
+          background: "var(--wish-colors-success-DEFAULT)",
+          color: "var(--wish-colors-success-on)",
+        },
+      },
+      {
+        variant: "subtle",
+        color: "success",
+        style: {
+          background: "var(--wish-colors-success-subtle)",
+          color: "var(--wish-colors-success-DEFAULT)",
         },
       },
 
@@ -137,11 +133,16 @@ export const badgeStyles = createVariants(
         variant: "solid",
         color: "danger",
         style: {
-          background: "var(--wish-color-danger)",
-          color: "var(--wish-color-on-danger)",
-          "&:hover": {
-            background: "var(--wish-color-danger-hover)",
-          },
+          background: "var(--wish-colors-danger-DEFAULT)",
+          color: "var(--wish-colors-danger-on)",
+        },
+      },
+      {
+        variant: "subtle",
+        color: "danger",
+        style: {
+          background: "var(--wish-colors-danger-subtle)",
+          color: "var(--wish-colors-danger-DEFAULT)",
         },
       },
 
@@ -150,35 +151,16 @@ export const badgeStyles = createVariants(
         variant: "solid",
         color: "warning",
         style: {
-          background: "var(--wish-color-warning)",
-          color: "var(--wish-color-on-warning)",
-          "&:hover": {
-            background: "var(--wish-color-warning-hover)",
-          },
-        },
-      },
-
-      // 🔥 ICON SPACING (KEY FEATURE)
-      {
-        hasStartIcon: true,
-        style: {
-          gap: "var(--wish-spacing-1)",
+          background: "var(--wish-colors-warning-DEFAULT)",
+          color: "var(--wish-colors-warning-on)",
         },
       },
       {
-        hasEndIcon: true,
+        variant: "subtle",
+        color: "warning",
         style: {
-          gap: "var(--wish-spacing-1)",
-        },
-      },
-
-      // ✨ FOCUS
-      {
-        style: {
-          "&:focus": {
-            outline: "2px solid var(--wish-color-focus)",
-            outlineOffset: "2px",
-          },
+          background: "var(--wish-colors-warning-subtle)",
+          color: "var(--wish-colors-warning-DEFAULT)",
         },
       },
     ],

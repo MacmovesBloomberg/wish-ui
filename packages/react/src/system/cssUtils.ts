@@ -8,6 +8,10 @@ export const pseudoMap: Record<string, string> = {
   _focusVisible: ":focus-visible",
   _active: ":active",
   _disabled: ":disabled",
+
+
+   _open: '[data-state="open"]',
+  _closed: '[data-state="closed"]',
 };
 
 export function objectToCSS(

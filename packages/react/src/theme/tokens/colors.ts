@@ -9,7 +9,7 @@ export const colors = {
     600: "#4f46e5",
     700: "#4338ca",
     800: "#3730a3",
-    900: "#312e81"
+    900: "#312e81",
   },
 
   gray: {
@@ -22,12 +22,32 @@ export const colors = {
     600: "#4b5563",
     700: "#374151",
     800: "#1f2937",
-    900: "#111827"
+    900: "#111827",
   },
-
-  success: "#22c55e",
-  warning: "#f59e0b",
-  danger: "#ef4444",
+  text: {
+    base: "#111827", // Gray 900 for light mode
+    muted: "#6b7280",
+  },
+  success: {
+    DEFAULT: "#22c55e",
+    subtle: "#f0fdf4", // Very light green
+    on: "#ffffff", // Contrast text for solid
+  },
+  warning: {
+    DEFAULT: "#f59e0b",
+    subtle: "#fffbeb",
+    on: "#ffffff",
+  },
+  danger: {
+    DEFAULT: "#ef4444",
+    subtle: "#fef2f2",
+    on: "#ffffff",
+  },
+  info: {
+    DEFAULT: "#3b82f6",
+    subtle: "#eff6ff",
+    on: "#ffffff",
+  },
   white: "#ffffff",
-  black: "#000000"
+  black: "#000000",
 };

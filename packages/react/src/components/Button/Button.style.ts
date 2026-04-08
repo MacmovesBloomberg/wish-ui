@@ -31,25 +31,28 @@ export const buttonVariants = createVariants(
       },
     },
 
+    // ... inside createVariants
     variants: {
       variant: {
         solid: {
-          background: "var(--wish-color-primary)",
+          background: "var(--wish-colors-primary-500)",
           color: "white",
 
           _hover: {
-            background: "var(--wish-color-primary-hover)",
+            background: "var(--wish-colors-primary-600)",
           },
         },
 
         outline: {
-          border: "1px solid var(--wish-color-border)",
+          border: "1px solid var(--wish-colors-gray-200)",
           background: "transparent",
+          color: "var(--wish-colors-primary-500)",
 
           _hover: {
-            background: "var(--wish-color-surface-hover)",
+            background: "var(--wish-colors-primary-50)",
           },
         },
+
 
         ghost: {
           background: "transparent",
@@ -81,5 +84,5 @@ export const buttonVariants = createVariants(
       size: "md",
     },
   },
-  "wish-button"
+  "wish-button",
 );

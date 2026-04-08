@@ -1,7 +1,18 @@
 let styleTag: HTMLStyleElement | null = null;
 const inserted = new Set<string>();
 
+function canUseDOM() {
+  return typeof document !== "undefined";
+}
+
 export function ensureStyleTag() {
+  if (!canUseDOM()) return;
+
+  // 🔹 Handle remount edge case
+  if (styleTag && !document.head.contains(styleTag)) {
+    styleTag = null;
+  }
+
   if (!styleTag) {
     styleTag = document.createElement("style");
     styleTag.setAttribute("data-wish", "true");
@@ -13,27 +24,29 @@ export function insertCSS(id: string, css: string) {
   if (inserted.has(id)) return;
 
   ensureStyleTag();
-  styleTag!.appendChild(document.createTextNode(css));
+  if (!styleTag) return;
+
+  styleTag.appendChild(
+    document.createTextNode(`/* ${id} */\n${css}\n`)
+  );
+
   inserted.add(id);
 }
 
-//
-// 🔥 NEW: Keyframes helper
-//
-
+// 🔥 Keyframes
 export function insertKeyframes(name: string, frames: string) {
   const id = `keyframes-${name}`;
 
   if (inserted.has(id)) return;
 
   ensureStyleTag();
+  if (!styleTag) return;
 
-  const css = `
-@keyframes ${name} {
-  ${frames}
-}
-`;
+  const css = `@keyframes ${name} { ${frames} }`;
 
-  styleTag!.appendChild(document.createTextNode(css));
+  styleTag.appendChild(
+    document.createTextNode(`/* ${id} */\n${css}\n`)
+  );
+
   inserted.add(id);
 }

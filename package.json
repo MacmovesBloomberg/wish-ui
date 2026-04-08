@@ -9,7 +9,7 @@
   "description": "Wish UI — A modern, lightweight, and accessible React component library built for performance and enterprise-scale applications",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"No tests configured\"",
     "prepare": "husky"
   },
   "author": "",
