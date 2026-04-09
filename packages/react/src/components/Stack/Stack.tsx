@@ -1,15 +1,17 @@
-import { StackProps } from "./Stack.type";
+import React from "react";
+// 🟢 Import the missing type
+import { StackProps } from "./Stack.type"; 
 
 export function Stack({
   children,
-  spacing = "var(--wish-spacing-md)",
+  spacing = "var(--wish-spacing-4, 16px)",
   direction = "column",
   align = "stretch",
   justify = "flex-start",
   wrap = "nowrap",
   style,
   ...rest
-}: StackProps) {
+}: StackProps) { // 🟢 Now TypeScript knows what StackProps is
   return (
     <div
       style={{
@@ -27,3 +29,5 @@ export function Stack({
     </div>
   );
 }
+
+Stack.displayName = "Stack";

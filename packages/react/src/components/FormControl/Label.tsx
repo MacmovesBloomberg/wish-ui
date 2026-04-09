@@ -8,19 +8,23 @@ export function Label(props: LabelHTMLAttributes<HTMLLabelElement>) {
     <label
       htmlFor={inputId}
       style={{
-        fontSize: "var(--wish-fontSize-sm)",
-        fontWeight: "var(--wish-fontWeight-medium)",
+        // 🟢 Fixed: plural 'fontSizes' and 'fontWeights'
+        fontSize: "var(--wish-font-sizes-sm, 14px)", 
+        fontWeight: "var(--wish-font-weights-medium, 500)",
         color: disabled
           ? "var(--wish-colors-gray-400)"
           : error
-          ? "var(--wish-colors-danger)"
-          : "var(--wish-colors-gray-700)"
+          ? "var(--wish-colors-danger-main, #ff4d4f)"
+          : "var(--wish-colors-gray-700, #374151)",
+        display: "block",
+        marginBottom: "var(--wish-spacing-1, 4px)",
+        ...props.style // Allow style override
       }}
       {...props}
     >
       {props.children}
       {required && (
-        <span style={{ marginLeft: 4, color: "red" }}>*</span>
+        <span style={{ marginLeft: 4, color: "var(--wish-colors-danger-main, red)" }}>*</span>
       )}
     </label>
   );
