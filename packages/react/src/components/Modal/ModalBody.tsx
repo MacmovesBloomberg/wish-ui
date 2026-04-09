@@ -4,6 +4,6 @@ import { bodyStyles } from "./Modal.styles";
 
 const StyledBody = styled("div", bodyStyles);
 
-export const ModalBody = ({ children }: { children: React.ReactNode }) => {
-  return <StyledBody>{children}</StyledBody>;
+export const ModalBody = ({ children, ...rest }: { children: React.ReactNode }) => {
+  return <StyledBody {...rest}>{children}</StyledBody>;
 };

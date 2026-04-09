@@ -4,6 +4,6 @@ import { headerStyles } from "./Modal.styles";
 
 const StyledHeader = styled("div", headerStyles);
 
-export const ModalHeader = ({ children }: { children: React.ReactNode }) => {
-  return <StyledHeader>{children}</StyledHeader>;
+export const ModalHeader = ({ children, ...rest }: { children: React.ReactNode }) => {
+  return <StyledHeader {...rest}>{children}</StyledHeader>;
 };

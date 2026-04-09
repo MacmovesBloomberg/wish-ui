@@ -7,10 +7,19 @@ const StyledSpinner = styled("span", spinnerStyles);
 
 export const Spinner = React.forwardRef(
   <T extends React.ElementType = "span">(
-    props: SpinnerProps<T>,
+    // 🟢 Explicitly destructure so styled() sees these props
+    { size = "md", variant = "solid", ...rest }: SpinnerProps<T>,
     ref: any
   ) => {
-    return <StyledSpinner ref={ref} role="status" {...(props as any)} />;
+    return (
+      <StyledSpinner 
+        ref={ref} 
+        role="status" 
+        size={size}     
+        variant={variant}
+        {...(rest as any)} 
+      />
+    );
   }
 );
 

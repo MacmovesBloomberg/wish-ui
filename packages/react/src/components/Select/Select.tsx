@@ -111,37 +111,31 @@ export const Select = ({
     }
   };
 
-  const selected = options.find((o) => o.value === value);
+const selected = options.find((o) => o.value === value);
 
+// 🟢 Add a check for placeholder color
+const triggerColor = selected 
+  ? "var(--wish-colors-text-base)" 
+  : "var(--wish-colors-text-muted)";
+  
   return (
-    <div ref={wrapperRef}>
+    <div ref={wrapperRef} style={{ width: "fit-content" }}>
       {/* 🔹 Anchor reference */}
       <div ref={refs.reference as React.RefObject<HTMLDivElement>}>
         <Trigger
-          size={size}
-          tabIndex={disabled ? -1 : 0}
-          onKeyDown={handleKeyDown}
-          onClick={() => {
-            if (!disabled) {
-              setOpen((o) => !o);
-            }
-          }}
-
-          // ✅ ACCESSIBILITY
-          role="combobox"
-          aria-haspopup="listbox"
-          aria-expanded={open}
-          aria-controls={listboxId.current}
-          aria-disabled={disabled}
-          aria-activedescendant={
-            highlightedIndex >= 0
-              ? `${listboxId.current}-option-${highlightedIndex}`
-              : undefined
-          }
-        >
-          {selected ? selected.label : placeholder}
-          <span>▾</span>
-        </Trigger>
+        size={size}
+        tabIndex={disabled ? -1 : 0}
+        style={{ color: triggerColor }} // Apply placeholder color
+        onKeyDown={handleKeyDown}
+        onClick={() => !disabled && setOpen((o) => !o)}
+        role="combobox"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-disabled={disabled}
+      >
+        <span>{selected ? selected.label : placeholder}</span>
+        <span style={{ fontSize: '0.8em', opacity: 0.5 }}>▼</span>
+      </Trigger>
       </div>
 
       {open &&

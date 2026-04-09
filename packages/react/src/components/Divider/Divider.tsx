@@ -7,7 +7,11 @@ const StyledDivider = styled("div", dividerStyles);
 
 export const Divider = React.forwardRef(
   <T extends React.ElementType = "div">(
-    { orientation = "horizontal", ...rest }: DividerProps<T>,
+    { 
+      orientation = "horizontal", 
+      variant = "solid", // 🟢 Explicitly extract variant
+      ...rest 
+    }: DividerProps<T>,
     ref: any
   ) => {
     return (
@@ -15,7 +19,9 @@ export const Divider = React.forwardRef(
         ref={ref}
         role="separator"
         aria-orientation={orientation}
+        // 🟢 Both props must be passed to trigger the style classes
         orientation={orientation}
+        variant={variant}
         {...(rest as any)}
       />
     );

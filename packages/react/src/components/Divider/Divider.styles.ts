@@ -3,8 +3,10 @@ import { createVariants } from "../../system/createVariants";
 export const dividerStyles = createVariants(
   {
     base: {
-      background: "var(--wish-color-border)",
+      background: "var(--wish-colors-gray-200, #e5e7eb)",
       flexShrink: 0,
+      border: "0 none",
+      boxSizing: "border-box", // Prevents size flickering
     },
 
     variants: {
@@ -16,41 +18,45 @@ export const dividerStyles = createVariants(
         vertical: {
           width: "1px",
           height: "100%",
+          minHeight: "var(--wish-spacing-4, 16px)",
         },
       },
 
       variant: {
         solid: {},
-
         dashed: {
-          background: "none",
+          background: "transparent !important",
           borderStyle: "dashed",
-          borderWidth: "1px 0 0 0",
+          borderColor: "var(--wish-colors-gray-200)",
         },
-
         dotted: {
-          background: "none",
+          background: "transparent !important",
           borderStyle: "dotted",
-          borderWidth: "1px 0 0 0",
+          borderColor: "var(--wish-colors-gray-200)",
         },
       },
     },
 
     compoundVariants: [
-      // vertical dashed/dotted fix
+      {
+        orientation: "horizontal",
+        variant: "dashed",
+        style: { borderWidth: "1px 0 0 0" },
+      },
+      {
+        orientation: "horizontal",
+        variant: "dotted",
+        style: { borderWidth: "1px 0 0 0" },
+      },
       {
         orientation: "vertical",
         variant: "dashed",
-        style: {
-          borderWidth: "0 0 0 1px",
-        },
+        style: { borderWidth: "0 0 0 1px" },
       },
       {
         orientation: "vertical",
         variant: "dotted",
-        style: {
-          borderWidth: "0 0 0 1px",
-        },
+        style: { borderWidth: "0 0 0 1px" },
       },
     ],
 

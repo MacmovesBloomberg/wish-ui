@@ -1,35 +1,17 @@
+import React from "react";
 import { CardProps } from "./Card.types";
-import { createVariants } from "../../system/createVariants";
+import { cardVariants } from "./Card.styles";
 
-export const cardVariants = createVariants({
-  base: {
-    borderRadius: "var(--wish-radius-lg)",
-    background: "white",
-    overflow: "hidden",
-    transition: "all 0.2s ease"
-  },
-
-  variants: {
-    variant: {
-      elevated: {
-        boxShadow: "0 4px 12px rgba(0,0,0,0.08)"
-      },
-
-      outline: {
-        border: "1px solid var(--wish-colors-gray-200)"
-      }
-    }
-  },
-
-  defaultVariants: {
-    variant: "elevated"
-  }
-});
-
-export function Card({ children, variant, style, ...rest }: CardProps) {
-  const styles = cardVariants({ variant });
+export function Card({ children, variant, className, style, ...rest }: CardProps) {
+  // 🟢 Returns a class string, e.g., "wish-card wish-card--variant-elevated"
+  const variantClasses = cardVariants({ variant });
+  
   return (
-    <div style={{ ...styles, ...style }} {...rest}>
+    <div 
+      className={`${variantClasses} ${className || ""}`.trim()} 
+      style={style} 
+      {...rest}
+    >
       {children}
     </div>
   );

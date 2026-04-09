@@ -4,6 +4,6 @@ import { footerStyles } from "./Modal.styles";
 
 const StyledFooter = styled("div", footerStyles);
 
-export const ModalFooter = ({ children }: { children: React.ReactNode }) => {
-  return <StyledFooter>{children}</StyledFooter>;
+export const ModalFooter = ({ children, ...rest }: { children: React.ReactNode }) => {
+  return <StyledFooter {...rest}>{children}</StyledFooter>;
 };
