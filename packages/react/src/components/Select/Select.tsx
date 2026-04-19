@@ -1,78 +1,60 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, forwardRef } from "react";
 import ReactDOM from "react-dom";
 import { styled } from "../../system/styled";
-import {
-  triggerStyles,
-  dropdownStyles,
-} from "./Select.styles";
+import { triggerStyles, dropdownStyles } from "./Select.styles";
 import { SelectProps } from "./Select.types";
 import { SelectOption } from "./SelectOption";
 import { usePosition } from "../../system/usePosition";
+import { useFormControl } from "../FormControl/FormControl.context";
+import { Box } from "../Box";
 
-const Trigger = styled("div", triggerStyles) as React.FC<
-  React.HTMLAttributes<HTMLDivElement> & {
-    size?: "sm" | "md" | "lg";
-  }
->;
-
+const Trigger = styled<"div", { size?: "sm" | "md" | "lg" }>("div", triggerStyles);
 const Dropdown = styled("div", dropdownStyles);
 
-export const Select = ({
-  value,
-  onChange,
-  options,
-  placeholder = "Select...",
-  disabled,
-  size,
-}: SelectProps) => {
+export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
+  const {
+    value,
+    onChange,
+    options,
+    placeholder = "Select...",
+    disabled: localDisabled,
+    size = "md",
+    style,
+    className,
+    ...rest
+  } = props;
+
+  // 🟢 1. Connect to FormControl Context
+  const formControl = useFormControl();
+  const error = formControl?.error;
+  const disabled = localDisabled || formControl?.disabled;
+  const inputId = formControl?.inputId;
+  const helperTextId = formControl?.helperTextId;
+
   const [open, setOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
-
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // ✅ Positioning hook MUST be inside component
   const { x, y, strategy, refs, update } = usePosition({
     placement: "bottom-start",
   });
 
-  const listboxId = useRef(
-    `select-${Math.random().toString(36).slice(2)}`
-  );
+  const listboxId = useRef(`select-${Math.random().toString(36).slice(2)}`);
 
-  // 🔹 Close on outside click
+  // Close on outside click
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (!wrapperRef.current?.contains(e.target as Node)) {
         setOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClick);
-    return () =>
-      document.removeEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  // 🔹 Sync highlighted index when opening
-  useEffect(() => {
-    if (open) {
-      const selectedIndex = options.findIndex(
-        (opt) => opt.value === value
-      );
-      setHighlightedIndex(selectedIndex >= 0 ? selectedIndex : 0);
-    }
-  }, [open, value, options]);
-
-  // 🔹 Update position when open
-  useEffect(() => {
-    if (open) {
-      update();
-    }
-  }, [open, update]);
-
-  // 🔹 Keyboard navigation
+  // Keyboard navigation logic (retained from your code)
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (disabled) return;
-
     if (!open) {
       if (e.key === "ArrowDown" || e.key === "Enter") {
         e.preventDefault();
@@ -84,58 +66,64 @@ export const Select = ({
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
-        setHighlightedIndex((prev) =>
-          prev < options.length - 1 ? prev + 1 : 0
-        );
+        setHighlightedIndex((prev) => (prev < options.length - 1 ? prev + 1 : 0));
         break;
-
       case "ArrowUp":
         e.preventDefault();
-        setHighlightedIndex((prev) =>
-          prev > 0 ? prev - 1 : options.length - 1
-        );
+        setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : options.length - 1));
         break;
-
       case "Enter":
         e.preventDefault();
         if (highlightedIndex >= 0) {
-          const selected = options[highlightedIndex];
-          onChange?.(selected.value);
+          onChange?.(options[highlightedIndex].value);
           setOpen(false);
         }
         break;
-
       case "Escape":
         setOpen(false);
         break;
     }
   };
 
-const selected = options.find((o) => o.value === value);
+  const selected = options.find((o) => o.value === value);
+  const triggerColor = selected 
+    ? "var(--wish-colors-text-base)" 
+    : "var(--wish-colors-text-muted, #94a3b8)";
 
-// 🟢 Add a check for placeholder color
-const triggerColor = selected 
-  ? "var(--wish-colors-text-base)" 
-  : "var(--wish-colors-text-muted)";
-  
   return (
-    <div ref={wrapperRef} style={{ width: "fit-content" }}>
-      {/* 🔹 Anchor reference */}
+    <Box 
+      ref={wrapperRef} 
+      width="100%" 
+      className={className} 
+      style={{ position: "relative", ...style }}
+    >
       <div ref={refs.reference as React.RefObject<HTMLDivElement>}>
         <Trigger
-        size={size}
-        tabIndex={disabled ? -1 : 0}
-        style={{ color: triggerColor }} // Apply placeholder color
-        onKeyDown={handleKeyDown}
-        onClick={() => !disabled && setOpen((o) => !o)}
-        role="combobox"
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        aria-disabled={disabled}
-      >
-        <span>{selected ? selected.label : placeholder}</span>
-        <span style={{ fontSize: '0.8em', opacity: 0.5 }}>▼</span>
-      </Trigger>
+          id={inputId}
+          size={size}
+          tabIndex={disabled ? -1 : 0}
+          onKeyDown={handleKeyDown}
+          onClick={() => !disabled && setOpen((o) => !o)}
+          role="combobox"
+          aria-haspopup="listbox"
+          aria-expanded={open}
+          aria-disabled={disabled}
+          aria-invalid={!!error}
+          aria-describedby={helperTextId}
+          style={{ 
+            color: triggerColor,
+            borderColor: error ? "var(--wish-colors-danger-main)" : undefined,
+            cursor: disabled ? "not-allowed" : "pointer",
+            opacity: disabled ? 0.6 : 1,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between"
+          }}
+          {...rest}
+        >
+          <span>{selected ? selected.label : placeholder}</span>
+          <span style={{ fontSize: '0.8em', opacity: 0.5, marginLeft: '8px' }}>▼</span>
+        </Trigger>
       </div>
 
       {open &&
@@ -147,8 +135,10 @@ const triggerColor = selected
             data-state={open ? "open" : "closed"}
             style={{
               position: strategy,
-              top: y,
-              left: x,
+              top: y ?? 0,
+              left: x ?? 0,
+              zIndex: 2000,
+              minWidth: wrapperRef.current?.offsetWidth,
             }}
           >
             {options.map((opt, index) => (
@@ -169,8 +159,8 @@ const triggerColor = selected
           </Dropdown>,
           document.body
         )}
-    </div>
+    </Box>
   );
-};
+});
 
 Select.displayName = "Select";

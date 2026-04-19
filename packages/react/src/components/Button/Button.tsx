@@ -5,7 +5,7 @@ import { buttonVariants } from "./Button.style";
 import { ButtonProps } from "./Button.types";
 import { Spinner } from "../Spinner";
 
-// ✅ Main button
+
 const StyledButton = styled("button", buttonVariants) as React.ForwardRefExoticComponent<
   React.ButtonHTMLAttributes<HTMLButtonElement> & {
     hasStartIcon?: boolean;
@@ -13,7 +13,6 @@ const StyledButton = styled("button", buttonVariants) as React.ForwardRefExoticC
   } & React.RefAttributes<HTMLButtonElement>
 >;
 
-// ✅ FIXED: Icon wrapper
 const iconWrapperStyles = createVariants(
   {
     base: {
@@ -26,7 +25,7 @@ const iconWrapperStyles = createVariants(
 
 const IconWrapper = styled("span", iconWrapperStyles);
 
-// ✅ FIXED: Text wrapper
+
 const textWrapperStyles = createVariants(
   {
     base: {

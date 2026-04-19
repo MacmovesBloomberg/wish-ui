@@ -2,9 +2,7 @@ import React from "react";
 import { styled } from "../../system/styled";
 import { optionStyles } from "./Select.styles";
 
-const Option = styled("div", optionStyles) as React.FC<
-  React.HTMLAttributes<HTMLDivElement> & { state?: "default" | "active" | "highlighted" }
->;
+const Option = styled<"div", { state?: "default" | "active" | "highlighted" }>("div", optionStyles);
 
 type Props = {
   label: string;

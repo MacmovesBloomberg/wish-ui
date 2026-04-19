@@ -35,24 +35,24 @@ export const alertStyles = createVariants(
         variant: "subtle",
         status: "success",
         style: {
-          background: "var(--wish-color-success-subtle)",
-          color: "var(--wish-color-success)",
+          background: "var(--wish-colors-success-subtle)",
+          color: "var(--wish-colors-success-DEFAULT)",
         },
       },
       {
         variant: "solid",
         status: "success",
         style: {
-          background: "var(--wish-color-success)",
-          color: "var(--wish-color-on-success)",
+          background: "var(--wish-colors-success-DEFAULT)",
+          color: "var(--wish-colors-success-on)",
         },
       },
       {
         variant: "outline",
         status: "success",
         style: {
-          borderColor: "var(--wish-color-success)",
-          color: "var(--wish-color-success)",
+          borderColor: "var(--wish-colors-success-DEFAULT)",
+          color: "var(--wish-colors-success-DEFAULT)",
         },
       },
 
@@ -61,24 +61,24 @@ export const alertStyles = createVariants(
         variant: "subtle",
         status: "error",
         style: {
-          background: "var(--wish-color-danger-subtle)",
-          color: "var(--wish-color-danger)",
+          background: "var(--wish-colors-danger-subtle)",
+          color: "var(--wish-colors-danger-DEFAULT)",
         },
       },
       {
         variant: "solid",
         status: "error",
         style: {
-          background: "var(--wish-color-danger)",
-          color: "var(--wish-color-on-danger)",
+          background: "var(--wish-colors-danger-DEFAULT)",
+          color: "var(--wish-colors-danger-on)",
         },
       },
       {
         variant: "outline",
         status: "error",
         style: {
-          borderColor: "var(--wish-color-danger)",
-          color: "var(--wish-color-danger)",
+          borderColor: "var(--wish-colors-danger-DEFAULT)",
+          color: "var(--wish-colors-danger-DEFAULT)",
         },
       },
 
@@ -87,24 +87,24 @@ export const alertStyles = createVariants(
         variant: "subtle",
         status: "warning",
         style: {
-          background: "var(--wish-color-warning-subtle)",
-          color: "var(--wish-color-warning)",
+          background: "var(--wish-colors-warning-subtle)",
+          color: "var(--wish-colors-warning-DEFAULT)",
         },
       },
       {
         variant: "solid",
         status: "warning",
         style: {
-          background: "var(--wish-color-warning)",
-          color: "var(--wish-color-on-warning)",
+          background: "var(--wish-colors-warning-DEFAULT)",
+          color: "var(--wish-colors-warning-on)",
         },
       },
       {
         variant: "outline",
         status: "warning",
         style: {
-          borderColor: "var(--wish-color-warning)",
-          color: "var(--wish-color-warning)",
+          borderColor: "var(--wish-colors-warning-DEFAULT)",
+          color: "var(--wish-colors-warning-DEFAULT)",
         },
       },
 
@@ -113,24 +113,24 @@ export const alertStyles = createVariants(
         variant: "subtle",
         status: "info",
         style: {
-          background: "var(--wish-color-primary-subtle)",
-          color: "var(--wish-color-primary)",
+          background: "var(--wish-colors-primary-subtle)",
+          color: "var(--wish-colors-primary-DEFAULT)",
         },
       },
       {
         variant: "solid",
         status: "info",
         style: {
-          background: "var(--wish-color-primary)",
-          color: "var(--wish-color-on-primary)",
+          background: "var(--wish-colors-primary-DEFAULT)",
+          color: "var(--wish-colors-primary-on)",
         },
       },
       {
         variant: "outline",
         status: "info",
         style: {
-          borderColor: "var(--wish-color-primary)",
-          color: "var(--wish-color-primary)",
+          borderColor: "var(--wish-colors-primary-DEFAULT)",
+          color: "var(--wish-colors-primary-DEFAULT)",
         },
       },
     ],

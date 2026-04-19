@@ -5,7 +5,7 @@ export type SelectOptionType = {
   value: string;
 };
 
-export type SelectProps = {
+export type SelectProps = Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> & {
   value?: string;
   onChange?: (value: string) => void;
 

@@ -1,3 +1,5 @@
+import { breakpoints } from "../theme/tokens/breakpoints";
+
 export function toKebabCase(str: string) {
   return str.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase());
 }
@@ -54,3 +56,27 @@ export function objectToCSS(
 
   return css;
 }
+
+/**
+ * Converts a responsive prop like { base: '10px', md: '20px' } 
+ * into executable CSS with media queries.
+ */
+export const mapResponsive = (propValue: any, callback: (val: any) => string | object) => {
+  if (typeof propValue !== "object" || propValue === null) {
+    return callback(propValue);
+  }
+
+  const styles: any = {};
+  
+  Object.entries(propValue).forEach(([breakpoint, value]) => {
+    const query = breakpoints[breakpoint as keyof typeof breakpoints];
+    
+    if (breakpoint === "base") {
+      Object.assign(styles, callback(value));
+    } else {
+      styles[`@media screen and (min-width: ${query})`] = callback(value);
+    }
+  });
+
+  return styles;
+};
