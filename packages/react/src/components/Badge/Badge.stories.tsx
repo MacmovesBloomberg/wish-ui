@@ -4,8 +4,19 @@ import { Badge } from "./Badge";
 const meta: Meta<typeof Badge> = {
   title: "Components/Badge",
   component: Badge,
+  // 🌟 This triggers the auto-generation we just fixed in main.ts
+  tags: ["autodocs"], 
+  argTypes: {
+    variant: {
+      control: "select",
+      options: ["solid", "outline", "subtle"],
+    },
+    color: {
+      control: "select",
+      options: ["primary", "neutral", "success", "warning", "danger"],
+    },
+  },
 };
-
 export default meta;
 
 type Story = StoryObj<typeof Badge>;

@@ -5,7 +5,9 @@ export type DividerVariant = "solid" | "dashed" | "dotted";
 export type DividerOrientation = "horizontal" | "vertical";
 
 type DividerOwnProps = {
+  /** The line style of the divider */
   variant?: DividerVariant;
+  /** The orientation of the divider */
   orientation?: DividerOrientation;
 };
 

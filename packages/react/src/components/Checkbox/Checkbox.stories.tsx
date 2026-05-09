@@ -1,11 +1,31 @@
-import React, { useState } from "react";
-import { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { useState } from "react";
 import { Checkbox } from "./Checkbox";
 import { Flex } from "../Flex";
 
 const meta: Meta<typeof Checkbox> = {
   title: "Components/Forms/Checkbox",
   component: Checkbox,
+  tags: ["autodocs"],
+  argTypes: {
+    size: {
+      control: "radio",
+      options: ["sm", "md", "lg"],
+      description: "The size of the checkbox",
+    },
+    label: {
+      control: "text",
+      description: "Label displayed next to the checkbox",
+    },
+    disabled: {
+      control: "boolean",
+      description: "Disables the checkbox",
+    },
+    indeterminate: {
+      control: "boolean",
+      description: "Shows a partial/indeterminate state",
+    },
+  },
 };
 
 export default meta;
@@ -15,10 +35,10 @@ export const Default: Story = {
   render: () => {
     const [checked, setChecked] = useState(false);
     return (
-      <Checkbox 
-        label="Accept Terms and Conditions" 
-        checked={checked} 
-        onChange={(e) => setChecked(e.target.checked)} 
+      <Checkbox
+        label="Accept Terms and Conditions"
+        checked={checked}
+        onChange={(e) => setChecked(e.target.checked)}
       />
     );
   },

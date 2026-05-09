@@ -4,6 +4,27 @@ import { Avatar } from "./Avatar";
 const meta: Meta<typeof Avatar> = {
   title: "Components/Avatar",
   component: Avatar,
+  tags: ["autodocs"],
+  argTypes: {
+    size: {
+      control: "radio",
+      options: ["sm", "md", "lg"],
+      description: "The size of the avatar",
+    },
+    variant: {
+      control: "select",
+      options: ["circular", "rounded", "square"],
+      description: "The shape of the avatar",
+    },
+    src: {
+      control: "text",
+      description: "Image URL for the avatar",
+    },
+    alt: {
+      control: "text",
+      description: "Alt text for the avatar image",
+    },
+  },
 };
 
 export default meta;

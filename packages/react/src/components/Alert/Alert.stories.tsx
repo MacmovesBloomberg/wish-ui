@@ -4,6 +4,23 @@ import { Alert } from "./Alert";
 const meta: Meta<typeof Alert> = {
   title: "Components/Alert",
   component: Alert,
+  tags: ["autodocs"],
+  argTypes: {
+    status: {
+      control: "select",
+      options: ["success", "error", "warning", "info"],
+      description: "The status of the alert",
+    },
+    variant: {
+      control: "select",
+      options: ["subtle", "solid", "outline"],
+      description: "The visual style of the alert",
+    },
+    title: {
+      control: "text",
+      description: "Optional title displayed above the message",
+    },
+  },
 };
 
 export default meta;

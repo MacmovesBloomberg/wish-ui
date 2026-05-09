@@ -4,7 +4,15 @@ import { Button } from "../Button";
 
 const meta: Meta<typeof Card> = {
   title: "Components/Card",
-  component: Card
+  component: Card,
+  tags: ["autodocs"],
+  argTypes: {
+    variant: {
+      control: "select",
+      options: ["elevated", "outline"],
+      description: "The visual style of the card",
+    },
+  },
 };
 
 export default meta;
@@ -23,7 +31,7 @@ export const Default: Story = {
         <Button size="sm">Save</Button>
       </CardFooter>
     </Card>
-  )
+  ),
 };
 
 export const Outline: Story = {
@@ -34,5 +42,5 @@ export const Outline: Story = {
         This is an outline variant.
       </CardContent>
     </Card>
-  )
+  ),
 };

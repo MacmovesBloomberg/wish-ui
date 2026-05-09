@@ -4,6 +4,19 @@ import { Spinner } from "./Spinner";
 const meta: Meta<typeof Spinner> = {
   title: "Components/Spinner",
   component: Spinner,
+  tags: ["autodocs"],
+  argTypes: {
+    size: {
+      control: "radio",
+      options: ["sm", "md", "lg"],
+      description: "The size of the spinner",
+    },
+    variant: {
+      control: "select",
+      options: ["solid", "subtle"],
+      description: "The visual style of the spinner",
+    },
+  },
 };
 
 export default meta;

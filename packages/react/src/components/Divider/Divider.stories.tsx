@@ -4,6 +4,19 @@ import { Divider } from "./Divider";
 const meta: Meta<typeof Divider> = {
   title: "Components/Divider",
   component: Divider,
+  tags: ["autodocs"],
+  argTypes: {
+    variant: {
+      control: "select",
+      options: ["solid", "dashed", "dotted"],
+      description: "The line style of the divider",
+    },
+    orientation: {
+      control: "radio",
+      options: ["horizontal", "vertical"],
+      description: "The orientation of the divider",
+    },
+  },
 };
 
 export default meta;
