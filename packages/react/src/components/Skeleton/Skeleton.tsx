@@ -16,7 +16,7 @@ export const Skeleton = ({
   return (
     <StyledSkeleton
       variant={variant}
-      isAnimated={isAnimated}
+      animation={isAnimated ? "shimmer" : "none"}
       style={{
         width: width ?? (variant === "circle" ? "40px" : "100%"),
         height: height ?? (variant === "circle" ? "40px" : undefined),

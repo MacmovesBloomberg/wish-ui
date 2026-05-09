@@ -66,7 +66,7 @@ export const Variants: Story = {
 
 export const Fallback: Story = {
   args: {
-    src: "broken-url.jpg",
+    src: "https://this-image-does-not-exist.example.com/avatar.jpg",
     fallback: "ERR",
   },
 };
