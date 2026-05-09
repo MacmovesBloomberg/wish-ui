@@ -1,27 +1,59 @@
-// This file has been automatically migrated to valid ESM format by Storybook.
+// .storybook/main.ts
+
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
-import type { InlineConfig } from "vite";
+import type { StorybookConfig } from "@storybook/react-vite";
 
 const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-export default {
-  framework: getAbsolutePath("@storybook/react-vite"),
+const config: StorybookConfig = {
+  // 🟢 Story files
   stories: ["../src/**/*.stories.@(ts|tsx)"],
-  viteFinal: async (config: InlineConfig) => {
+
+  // 🟢 Framework
+  framework: {
+    name: "@storybook/react-vite",
+    options: {},
+  },
+
+  // 🟢 Storybook 10 Addons
+  addons: [
+    "@storybook/addon-docs",
+    "@storybook/addon-a11y",
+    "@storybook/addon-vitest",
+  ],
+
+  // 🟢 Docs Configuration
+  docs: {
+    autodocs: "tag",
+    defaultName: "Documentation",
+  },
+
+  // 🟢 TypeScript Optimization
+  typescript: {
+    reactDocgen: "react-docgen",
+    check: false,
+  },
+
+  // 🟢 Vite Customization
+  viteFinal: async (config) => {
     return {
       ...config,
+
       resolve: {
         alias: {
-          "@": path.resolve(__dirname, "../src")
-        }
-      }
+          ...(config.resolve?.alias || {}),
+
+          // Main src alias
+          "@": path.resolve(__dirname, "../src"),
+
+          // Theme alias
+          "@theme": path.resolve(__dirname, "../src/theme"),
+        },
+      },
     };
-  }
+  },
 };
 
-function getAbsolutePath(value: string): any {
-  return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
-}
+export default config;

@@ -4,7 +4,12 @@ import { Icon } from "../../icons";
 
 const meta: Meta<typeof Button> = {
   title: "Components/Button",
-  component: Button
+  component: Button,
+  tags: ['autodocs'], 
+  argTypes: {
+    variant: { control: 'select' },
+    size: { control: 'select' },
+  }
 };
 
 export default meta;
