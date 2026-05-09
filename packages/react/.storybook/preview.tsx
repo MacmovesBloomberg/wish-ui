@@ -1,5 +1,5 @@
 import React from "react";
-import type { Preview } from "@storybook/react";
+import type { Preview } from "@storybook/react-vite";
 import { WishProvider } from "../src/theme/provider/WishProvider";
 
 const preview: Preview = {
