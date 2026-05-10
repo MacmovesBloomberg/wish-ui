@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, forwardRef } from "react";
 import ReactDOM from "react-dom";
 import { styled } from "../../system/styled";
 import { overlayStyles, contentStyles } from "./Modal.styles";
@@ -11,17 +11,29 @@ import { ModalFooter } from "./ModalFooter";
 const Overlay = styled("div", overlayStyles);
 const Content = styled("div", contentStyles);
 
-const ModalBase = ({
+const ModalBase = forwardRef<HTMLDivElement, ModalProps>(({
   open,
   onClose,
   children,
   closeOnOverlayClick = true,
   closeOnEsc = true,
-}: ModalProps) => {
+  className,
+  style,
+}, ref) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const previouslyFocused = useRef<HTMLElement | null>(null);
 
-  // 🔹 Store & restore focus
+  // Merge the forwarded ref with the internal contentRef
+  const setRef = (node: HTMLDivElement | null) => {
+    (contentRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    if (typeof ref === "function") {
+      ref(node);
+    } else if (ref) {
+      (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    }
+  };
+
+  // Store & restore focus
   useEffect(() => {
     if (open) {
       previouslyFocused.current = document.activeElement as HTMLElement;
@@ -30,34 +42,29 @@ const ModalBase = ({
     }
   }, [open]);
 
-  // 🔹 ESC key handling
+  // ESC key handling
   useEffect(() => {
     if (!closeOnEsc || !open) return;
-
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
-
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [open, closeOnEsc, onClose]);
 
-  // 🔹 Scroll lock
+  // Scroll lock
   useEffect(() => {
     if (!open) return;
-
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-
     return () => {
       document.body.style.overflow = originalOverflow;
     };
   }, [open]);
 
-  // 🔹 Focus trap
+  // Focus trap
   useEffect(() => {
     if (!open) return;
-
     const content = contentRef.current;
     if (!content) return;
 
@@ -70,14 +77,10 @@ const ModalBase = ({
       "[tabindex]:not([tabindex='-1'])",
     ];
 
-    const focusable = content.querySelectorAll<HTMLElement>(
-      selectors.join(",")
-    );
-
+    const focusable = content.querySelectorAll<HTMLElement>(selectors.join(","));
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
 
-    // Focus first element or fallback to container
     if (first) {
       first.focus();
     } else {
@@ -86,13 +89,11 @@ const ModalBase = ({
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key !== "Tab") return;
-
       if (focusable.length === 0) {
         e.preventDefault();
         content.focus();
         return;
       }
-
       if (e.shiftKey) {
         if (document.activeElement === first) {
           e.preventDefault();
@@ -119,8 +120,10 @@ const ModalBase = ({
       onClick={closeOnOverlayClick ? onClose : undefined}
     >
       <Content
-        ref={contentRef}
+        ref={setRef}
         tabIndex={-1}
+        className={className}
+        style={style}
         onClick={(e) => e.stopPropagation()}
       >
         {children}
@@ -128,9 +131,11 @@ const ModalBase = ({
     </Overlay>,
     document.body
   );
-};
+});
 
-// 🔹 Compound typing
+ModalBase.displayName = "Modal";
+
+// Compound typing
 type ModalComponent = typeof ModalBase & {
   Header: typeof ModalHeader;
   Body: typeof ModalBody;
@@ -139,9 +144,6 @@ type ModalComponent = typeof ModalBase & {
 
 export const Modal = ModalBase as ModalComponent;
 
-// 🔹 Attach subcomponents
 Modal.Header = ModalHeader;
 Modal.Body = ModalBody;
 Modal.Footer = ModalFooter;
-
-Modal.displayName = "Modal";

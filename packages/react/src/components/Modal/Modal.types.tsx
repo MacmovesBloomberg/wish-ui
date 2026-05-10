@@ -11,4 +11,8 @@ export type ModalProps = {
   closeOnOverlayClick?: boolean;
   /** Close the modal when pressing the Escape key */
   closeOnEsc?: boolean;
+  /** Additional class name applied to the modal content element */
+  className?: string;
+  /** Inline style overrides for the modal content element */
+  style?: React.CSSProperties;
 };

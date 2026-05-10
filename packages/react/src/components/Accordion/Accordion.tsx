@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, forwardRef } from "react";
 import { styled } from "../../system/styled";
 import { AccordionProps, AccordionItemProps } from "./Accordion.types";
 import { itemStyles } from "./Accordion.styles";
@@ -21,10 +21,19 @@ type StyledItemProps = React.HTMLAttributes<HTMLDivElement> & {
 
 const StyledItem = styled("div", itemStyles) as React.FC<StyledItemProps>;
 
-export const Accordion = ({ 
-  children, type = "single", defaultValue, value: controlledValue, onValueChange, variant = "ghost" 
-}: AccordionProps) => {
-  const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue || (type === "multiple" ? [] : ""));
+export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(({
+  children,
+  type = "single",
+  defaultValue,
+  value: controlledValue,
+  onValueChange,
+  variant = "ghost",
+  className,
+  style,
+}, ref) => {
+  const [uncontrolledValue, setUncontrolledValue] = useState(
+    defaultValue || (type === "multiple" ? [] : "")
+  );
   const isControlled = controlledValue !== undefined;
   const activeValue = isControlled ? controlledValue : uncontrolledValue;
 
@@ -34,7 +43,9 @@ export const Accordion = ({
       nextValue = activeValue === itemValue ? "" : itemValue;
     } else {
       const prev = activeValue as string[];
-      nextValue = prev.includes(itemValue) ? prev.filter(v => v !== itemValue) : [...prev, itemValue];
+      nextValue = prev.includes(itemValue)
+        ? prev.filter((v) => v !== itemValue)
+        : [...prev, itemValue];
     }
     if (!isControlled) setUncontrolledValue(nextValue);
     onValueChange?.(nextValue);
@@ -42,16 +53,26 @@ export const Accordion = ({
 
   return (
     <AccordionContext.Provider value={{ value: activeValue, onToggle, variant }}>
-      <div style={{ width: "100%" }}>{children}</div>
+      <div ref={ref} style={{ width: "100%", ...style }} className={className}>
+        {children}
+      </div>
     </AccordionContext.Provider>
   );
-};
+});
 
-export const AccordionItem = ({ value, children, disabled }: AccordionItemProps) => {
+Accordion.displayName = "Accordion";
+
+export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
+  value,
+  children,
+  disabled,
+}, ref) => {
   const { variant } = useAccordion()!;
   return (
     <ItemContext.Provider value={{ value, disabled }}>
-      <StyledItem variant={variant}>{children}</StyledItem>
+      <StyledItem ref={ref} variant={variant}>{children}</StyledItem>
     </ItemContext.Provider>
   );
-};
+});
+
+AccordionItem.displayName = "AccordionItem";

@@ -5,7 +5,7 @@ import { injectCssVariables } from "../injectCssVariables";
 import { ThemeContext } from "./ThemeContext";
 import { WishTheme } from "../theme";
 
-type WishProviderProps = {
+export type WishProviderProps = {
   children: ReactNode;
   theme?: Partial<WishTheme>;
 };

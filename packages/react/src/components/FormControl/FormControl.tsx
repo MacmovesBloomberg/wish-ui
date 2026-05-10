@@ -1,30 +1,20 @@
-import React, { ReactNode, useId } from "react";
-import { Box } from "../Box"; 
+import React, { useId, forwardRef } from "react";
+import { Box } from "../Box";
 import FormControlContext from "./FormControl.context";
+import { FormControlProps } from "./FormControl.types";
 
-export interface FormControlProps {
-  /** The form elements (Label, Input, HelperText) */
-  children: ReactNode;
-  /** If true, indicates an error state */
-  error?: boolean;
-  /** If true, disables all child form elements */
-  disabled?: boolean;
-  /** If true, marks the field as required */
-  required?: boolean;
-  /** Custom class for the wrapper */
-  className?: string;
-}
+export { FormControlProps } from "./FormControl.types";
 
-export function FormControl({
+export const FormControl = forwardRef<HTMLDivElement, FormControlProps>(({
   children,
   error = false,
   disabled = false,
   required = false,
-  className
-}: FormControlProps) {
+  className,
+  style,
+}, ref) => {
   const id = useId();
 
-  // Unique IDs for accessibility linking
   const inputId = `${id}-input`;
   const helperTextId = `${id}-helper`;
 
@@ -35,22 +25,21 @@ export function FormControl({
         disabled,
         required,
         inputId,
-        helperTextId
+        helperTextId,
       }}
     >
       <Box
+        ref={ref}
         as="div"
         className={["wish-form-control", className].filter(Boolean).join(" ")}
         display="flex"
-        // Using inline style for direction as it's a fixed structural requirement
-        style={{ flexDirection: "column" }}
-        // Utilizing our responsive gap logic
+        style={{ flexDirection: "column", ...style }}
         gap="var(--wish-spacing-xs)"
       >
         {children}
       </Box>
     </FormControlContext.Provider>
   );
-}
+});
 
 FormControl.displayName = "FormControl";

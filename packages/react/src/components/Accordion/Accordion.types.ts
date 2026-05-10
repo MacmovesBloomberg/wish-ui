@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import React from "react";
 
 export type AccordionType = "single" | "multiple";
 
@@ -15,6 +16,10 @@ export interface AccordionProps {
   onValueChange?: (value: any) => void;
   /** The visual style of the accordion */
   variant?: "ghost" | "bordered";
+  /** Additional class name applied to the root element */
+  className?: string;
+  /** Inline style overrides for the root element */
+  style?: React.CSSProperties;
 }
 
 export interface AccordionItemProps {
