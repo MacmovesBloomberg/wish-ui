@@ -20,6 +20,11 @@ const meta: Meta<typeof Tabs> = {
       description: "The layout orientation of the tabs",
     },
   },
+  args: {
+    variant: "line",
+    orientation: "horizontal",
+    defaultValue: "account",
+  },
 };
 
 export default meta;
@@ -27,8 +32,13 @@ export default meta;
 type Story = StoryObj<typeof Tabs>;
 
 export const Default: Story = {
-  render: () => (
-    <Tabs defaultValue="account">
+  args: {
+    variant: "line",
+    orientation: "horizontal",
+    defaultValue: "account",
+  },
+  render: (args) => (
+    <Tabs {...args}>
       <TabList>
         <Tab value="account">Account</Tab>
         <Tab value="password">Password</Tab>
@@ -36,22 +46,46 @@ export const Default: Story = {
       </TabList>
       <TabPanel value="account">Manage your account settings here.</TabPanel>
       <TabPanel value="password">Change your password here.</TabPanel>
+      <TabPanel value="settings">Settings are disabled.</TabPanel>
+    </Tabs>
+  ),
+};
+
+export const Enclosed: Story = {
+  args: {
+    variant: "enclosed",
+    defaultValue: "overview",
+  },
+  render: (args) => (
+    <Tabs {...args}>
+      <TabList>
+        <Tab value="overview">Overview</Tab>
+        <Tab value="analytics">Analytics</Tab>
+        <Tab value="reports">Reports</Tab>
+      </TabList>
+      <TabPanel value="overview">Overview content.</TabPanel>
+      <TabPanel value="analytics">Analytics content.</TabPanel>
+      <TabPanel value="reports">Reports content.</TabPanel>
     </Tabs>
   ),
 };
 
 export const Vertical: Story = {
-  render: () => (
-    <Tabs defaultValue="tab1" orientation="vertical">
+  args: {
+    orientation: "vertical",
+    defaultValue: "general",
+  },
+  render: (args) => (
+    <Tabs {...args}>
       <TabList>
-        <Tab value="tab1">General</Tab>
-        <Tab value="tab2">Security</Tab>
-        <Tab value="tab3">Notifications</Tab>
+        <Tab value="general">General</Tab>
+        <Tab value="security">Security</Tab>
+        <Tab value="notifications">Notifications</Tab>
       </TabList>
       <div style={{ paddingLeft: "20px" }}>
-        <TabPanel value="tab1">General content</TabPanel>
-        <TabPanel value="tab2">Security settings</TabPanel>
-        <TabPanel value="tab3">Notification preferences</TabPanel>
+        <TabPanel value="general">General settings.</TabPanel>
+        <TabPanel value="security">Security settings.</TabPanel>
+        <TabPanel value="notifications">Notification preferences.</TabPanel>
       </div>
     </Tabs>
   ),
