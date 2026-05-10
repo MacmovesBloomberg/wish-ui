@@ -1,5 +1,8 @@
 export const colors = {
   primary: {
+    DEFAULT: "#6366f1",  // primary-500
+    subtle: "#eef2ff",   // primary-50
+    on: "#ffffff",       // contrast text for solid backgrounds
     50: "#eef2ff",
     100: "#e0e7ff",
     200: "#c7d2fe",

@@ -86,9 +86,9 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
   };
 
   const selected = options.find((o) => o.value === value);
-  const triggerColor = selected 
-    ? "var(--wish-colors-text-base)" 
-    : "var(--wish-colors-text-muted, #94a3b8)";
+  const triggerColor = selected
+    ? "var(--wish-colors-text-base)"
+    : "var(--wish-colors-text-muted)";
 
   return (
     <Box 
@@ -122,7 +122,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
           {...rest}
         >
           <span>{selected ? selected.label : placeholder}</span>
-          <span style={{ fontSize: '0.8em', opacity: 0.5, marginLeft: '8px' }}>▼</span>
+          <span style={{ fontSize: '0.8em', opacity: 0.5, marginLeft: 'var(--wish-spacing-sm)' }}>▼</span>
         </Trigger>
       </div>
 

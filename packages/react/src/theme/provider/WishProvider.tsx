@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useMemo } from "react";
 import { theme as defaultTheme } from "../theme";
 import { createCssVariables } from "../createCssVariables";
 import { injectCssVariables } from "../injectCssVariables";
@@ -14,10 +14,10 @@ export function WishProvider({
   children,
   theme
 }: WishProviderProps) {
-  const mergedTheme = {
+  const mergedTheme = useMemo(() => ({
     ...defaultTheme,
-    ...theme
-  };
+    ...theme,
+  }), [theme]);
 
   useEffect(() => {
     const vars = createCssVariables(mergedTheme);

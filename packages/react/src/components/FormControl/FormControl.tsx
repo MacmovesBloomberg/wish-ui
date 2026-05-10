@@ -45,7 +45,7 @@ export function FormControl({
         // Using inline style for direction as it's a fixed structural requirement
         style={{ flexDirection: "column" }}
         // Utilizing our responsive gap logic
-        gap="var(--wish-spacing-xs, 8px)"
+        gap="var(--wish-spacing-xs)"
       >
         {children}
       </Box>
